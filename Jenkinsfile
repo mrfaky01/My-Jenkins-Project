@@ -51,12 +51,12 @@ pipeline {
     // Post-build actions: These run after all stages are complete (or if they fail).
     post {
         always {
-            echo 'Cleaning up workspace...'
-            // This step requires the "Pipeline Utility Steps" plugin to be installed in Jenkins.
-            // If 'cleanWs()' still gives a 'NoSuchMethodError' after a Jenkins restart,
-            // you can temporarily replace it with: sh 'rm -rf *'
-            cleanWs()
-            echo 'Workspace cleaned.'
+            echo 'Cleaning up workspace using shell command...'
+            // MODIFIED: Using a shell command for workspace cleanup to bypass cleanWs() error.
+            // This command will remove all files and directories in the current workspace.
+            // It's a standard Linux command and doesn't rely on specific Jenkins plugins.
+            sh 'rm -rf *'
+            echo 'Workspace cleaned using shell command.'
         }
     }
 }

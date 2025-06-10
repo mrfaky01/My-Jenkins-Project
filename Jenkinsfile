@@ -1,10 +1,10 @@
 pipeline {
     agent any // This means Jenkins can run the pipeline on any available agent (the EC2 instance itself, in this case)
 
- stage('Checkout Code') {
-                steps {
-                    git branch: 'main', url: 'https://github.com/mrfaky01/My-Jenkins-Project.git'
-                }
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main', url: 'https://github.com/mrfaky01/My-Jenkins-Project.git' // Make sure this URL is correct
             }
         }
         stage('Build') {

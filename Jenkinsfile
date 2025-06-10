@@ -12,14 +12,16 @@ pipeline {
             }
         }
 
-       stage('Prepare/Build (Static)') {
-    steps {
-        echo 'No complex build step needed for simple static files. Preparing for deployment...'
-        sh 'mkdir -p dist'
-        // MODIFIED LINE BELOW: Explicitly copy your static website files
-        sh 'cp index.html style.css script.js dist/'
-    }
-}
+        stage('Prepare/Build (Static)') {
+            steps {
+                echo 'No complex build step needed for simple static files. Preparing for deployment...'
+                // Create the 'dist' directory first, then copy files into it.
+                // This ensures the target directory exists for the 'cp' command.
+                sh 'mkdir -p dist'
+                // Explicitly copy your static website files into the 'dist' folder.
+                sh 'cp index.html style.css script.js dist/'
+            }
+        }
 
         stage('Test (Static)') {
             steps {
@@ -51,8 +53,8 @@ pipeline {
         always {
             echo 'Cleaning up workspace...'
             // This step requires the "Pipeline Utility Steps" plugin to be installed in Jenkins.
-            // If you encounter 'NoSuchMethodError' again, ensure the plugin is installed via:
-            // Manage Jenkins -> Plugins -> Available Plugins -> Search for "Pipeline Utility Steps"
+            // If 'cleanWs()' still gives a 'NoSuchMethodError' after a Jenkins restart,
+            // you can temporarily replace it with: sh 'rm -rf *'
             cleanWs()
             echo 'Workspace cleaned.'
         }

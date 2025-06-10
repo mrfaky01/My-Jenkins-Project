@@ -12,16 +12,14 @@ pipeline {
             }
         }
 
-        stage('Prepare/Build (Static)') {
-            steps {
-                echo 'No complex build step needed for simple static files. Preparing for deployment...'
-                // Create the 'dist' directory first, then copy files into it.
-                // This ensures the target directory exists for the 'cp' command.
-                sh 'mkdir -p dist' // <--- ADDED: Creates the 'dist' folder if it doesn't exist
-                sh 'cp -r ./* dist/' // <--- MODIFIED: Copies all files and folders into 'dist'
-                                     //      Note: The trailing slash on 'dist/' ensures contents are copied *into* it.
-            }
-        }
+       stage('Prepare/Build (Static)') {
+    steps {
+        echo 'No complex build step needed for simple static files. Preparing for deployment...'
+        sh 'mkdir -p dist'
+        // MODIFIED LINE BELOW: Explicitly copy your static website files
+        sh 'cp index.html style.css script.js dist/'
+    }
+}
 
         stage('Test (Static)') {
             steps {
